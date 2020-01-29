@@ -1,10 +1,16 @@
 import os
 import pika
+from time import sleep
 
 host = os.getenv('RABBITMQ_HOST', 'localhost')
 port = os.getenv('RABBITMQ_PORT', '5672')
 user = os.getenv('RABBITMQ_DEFAULT_USER', 'admin')
 password = os.getenv('RABBITMQ_DEFAULT_PASS', 'password')
+
+print('host port', host, port)
+
+print('wait for rabbitmq')
+sleep(5000)
 
 credentials = pika.PlainCredentials(user, password)
 
@@ -12,10 +18,21 @@ connection = pika.BlockingConnection(pika.ConnectionParameters(host=host, port=i
 
 channel = connection.channel()
 
-channel.queue_declare(queue='my-fancy-queue')
+queue = 'publications'
 
-for i in range (0, 500):
-    channel.basic_publish(exchange='', routing_key='my-fancy-queue', body=f'Message {i}')
+channel.queue_declare(queue=queue)
+
+message = """
+    {
+        "name" : "john",
+        "age" : 47
+    }
+"""
+
+for i in range (0, 5000):
+    channel.basic_publish(exchange='', routing_key=queue, body=message)
+
+connection.close()
 
 print("Done")
 
