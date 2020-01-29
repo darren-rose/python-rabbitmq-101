@@ -21,9 +21,5 @@ pip install -r requirements.txt
 #### running
 
 ```
-RABBITMQ_HOST=localhost \
-RABBITMQ_PORT=5672 \
-RABBITMQ_DEFAULT_USER=admin \
-RABBITMQ_DEFAULT_PASS=password \
-python main.py
+docker-compose up --build
 ```

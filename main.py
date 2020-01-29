@@ -8,9 +8,7 @@ user = os.getenv('RABBITMQ_DEFAULT_USER', 'admin')
 password = os.getenv('RABBITMQ_DEFAULT_PASS', 'password')
 
 print('host port', host, port)
-
-print('wait for rabbitmq')
-sleep(5000)
+sleep(15)
 
 credentials = pika.PlainCredentials(user, password)
 
